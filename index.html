@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nitekabu hub — apps by @kabueng55</title>
+  <meta name="description" content="3 ヶ月、夜泣きの合間に作ってきた、株まわりの小さなアプリたち。" />
+  <meta name="theme-color" content="#0a0d12" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="nitekabu hub" />
+  <meta property="og:description" content="3 ヶ月、夜泣きの合間に作ってきた、株まわりの小さなアプリたち。" />
+  <meta property="og:url" content="https://hub.nitekabu.com/" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg-deep:        #0a0d12;
+      --bg-surface:     #131722;
+      --bg-card:        #1a1f2e;
+      --bg-card-hover:  #1e2433;
+
+      --text-1:         #e6e7ea;
+      --text-2:         #9099a8;
+      --text-3:         #565d6b;
+
+      --accent-blue:    #5a9eff;
+      --accent-gold:    #f0b429;
+      --candle-green:   #26a69a;
+
+      --border-faint:   rgba(255, 255, 255, 0.04);
+      --border:         rgba(255, 255, 255, 0.08);
+      --border-strong:  rgba(255, 255, 255, 0.16);
+
+      --serif: 'Fraunces', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+      --sans:  'IBM Plex Sans', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      --mono:  'JetBrains Mono', ui-monospace, monospace;
+
+      --max-w: 680px;
+      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    *,
+    *::before,
+    *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--bg-deep);
+      color: var(--text-1);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% -10%, rgba(90, 158, 255, 0.10), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 105%, rgba(240, 180, 41, 0.05), transparent 70%),
+        var(--bg-deep);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* faint chart grid backdrop */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, var(--border-faint) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--border-faint) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 30%, transparent 90%);
+    }
+
+    /* ascending candle silhouette in bottom-right */
+    body::after {
+      content: '';
+      position: fixed;
+      right: -40px;
+      bottom: -40px;
+      width: 320px;
+      height: 320px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          transparent 24px,
+          rgba(38, 166, 154, 0.05) 24px,
+          rgba(38, 166, 154, 0.05) 28px,
+          transparent 28px,
+          transparent 32px
+        );
+      transform: rotate(-12deg);
+      filter: blur(0.5px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: clamp(56px, 9vw, 104px) clamp(22px, 5vw, 40px) 64px;
+    }
+
+    /* ─── header ─────────────────────────────────── */
+    .ticker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 36px;
+    }
+    .ticker::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--candle-green);
+      box-shadow: 0 0 10px var(--candle-green);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1;   transform: scale(1); }
+      50%      { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(52px, 10vw, 88px);
+      line-height: 0.96;
+      letter-spacing: -0.028em;
+      margin-bottom: 28px;
+      font-variation-settings: 'opsz' 144;
+    }
+    h1 em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent-gold);
+    }
+
+    .lead {
+      font-family: var(--serif);
+      font-size: clamp(17px, 2.2vw, 20px);
+      font-weight: 350;
+      line-height: 1.55;
+      color: var(--text-2);
+      max-width: 480px;
+      margin-bottom: 64px;
+    }
+
+    /* ─── divider ─────────────────────────────────── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 20px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    /* ─── apps ─────────────────────────────────────── */
+    .apps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 72px;
+    }
+
+    .app-card {
+      position: relative;
+      display: block;
+      padding: 26px 30px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.28s var(--ease), border-color 0.28s var(--ease),
+        background 0.28s var(--ease), box-shadow 0.28s var(--ease);
+      overflow: hidden;
+    }
+    .app-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg,
+          rgba(90, 158, 255, 0) 0%,
+          rgba(90, 158, 255, 0.07) 45%,
+          rgba(240, 180, 41, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.28s var(--ease);
+      pointer-events: none;
+    }
+    .app-card::after {
+      content: '↗';
+      position: absolute;
+      top: 22px;
+      right: 26px;
+      font-family: var(--serif);
+      font-size: 18px;
+      color: var(--text-3);
+      transition: transform 0.28s var(--ease), color 0.28s var(--ease);
+    }
+    .app-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-strong);
+      background: var(--bg-card-hover);
+      box-shadow: 0 16px 48px -16px rgba(0, 0, 0, 0.7);
+    }
+    .app-card:hover::before { opacity: 1; }
+    .app-card:hover::after {
+      transform: translate(3px, -3px);
+      color: var(--accent-blue);
+    }
+    .app-card:focus-visible {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 3px;
+    }
+
+    .app-head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      margin-bottom: 10px;
+      padding-right: 28px;
+    }
+
+    .app-name {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: -0.018em;
+      color: var(--text-1);
+      font-variation-settings: 'opsz' 36;
+    }
+
+    .app-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .app-status.live {
+      color: var(--candle-green);
+      background: rgba(38, 166, 154, 0.10);
+      border: 1px solid rgba(38, 166, 154, 0.28);
+    }
+    .app-status.live::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--candle-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--candle-green);
+    }
+
+    .app-desc {
+      color: var(--text-2);
+      font-size: 14.5px;
+      line-height: 1.55;
+      margin-bottom: 14px;
+      max-width: 92%;
+    }
+
+    .app-url {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.02em;
+      color: var(--text-3);
+      transition: color 0.28s var(--ease);
+    }
+    .app-card:hover .app-url { color: var(--accent-blue); }
+
+    /* ─── footer ─────────────────────────────────── */
+    footer {
+      padding-top: 36px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .footer-handle {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.2s var(--ease);
+    }
+    .footer-handle:hover { color: var(--accent-blue); }
+
+    .footer-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--text-3);
+    }
+
+    /* ─── stagger reveal ─────────────────────────── */
+    .ticker, h1, .lead, .section-label, .app-card, footer {
+      opacity: 0;
+      animation: rise 0.7s var(--ease) forwards;
+    }
+    .ticker        { animation-delay: 0.05s; }
+    h1             { animation-delay: 0.15s; }
+    .lead          { animation-delay: 0.28s; }
+    .section-label { animation-delay: 0.40s; }
+    .app-card:nth-of-type(1) { animation-delay: 0.50s; }
+    .app-card:nth-of-type(2) { animation-delay: 0.60s; }
+    footer         { animation-delay: 0.74s; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 540px) {
+      .app-card { padding: 22px 22px; }
+      .app-head { padding-right: 24px; }
+      .app-card::after { top: 20px; right: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <div class="ticker">indie · @kabueng55 · since 2026</div>
+      <h1>nitekabu <em>hub</em>.</h1>
+      <p class="lead">3 ヶ月、夜泣きの合間に作ってきた、株まわりの小さなアプリたち。</p>
+    </header>
+
+    <div class="section-label">apps</div>
+
+    <section class="apps">
+      <a class="app-card" href="https://nitekabu.com" target="_blank" rel="noopener">
+        <div class="app-head">
+          <span class="app-name">nitekabu</span>
+          <span class="app-status live">live</span>
+        </div>
+        <p class="app-desc">日経 225 から、チャートの「形」で銘柄を探せる類似検索ツール。10 種類のパターンに対応。</p>
+        <span class="app-url">nitekabu.com</span>
+      </a>
+
+      <a class="app-card" href="https://shindan.nitekabu.com" target="_blank" rel="noopener">
+        <div class="app-head">
+          <span class="app-name">投資家タイプ診断</span>
+          <span class="app-status live">live</span>
+        </div>
+        <p class="app-desc">10 問でわかる、あなたの投資家タイプ。結果カードを X でそのままシェアできます。</p>
+        <span class="app-url">shindan.nitekabu.com</span>
+      </a>
+    </section>
+
+    <footer>
+      <a class="footer-handle" href="https://x.com/kabueng55" target="_blank" rel="noopener">@kabueng55 on X</a>
+      <span class="footer-meta">last updated 2026-05-10</span>
+    </footer>
+  </main>
+</body>
+</html>
