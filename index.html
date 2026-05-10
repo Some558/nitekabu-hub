@@ -191,8 +191,9 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      margin-bottom: 72px;
+      margin-bottom: 56px;
     }
+    .apps-2 { margin-bottom: 72px; }
 
     .app-card {
       position: relative;
@@ -339,13 +340,15 @@
       opacity: 0;
       animation: rise 0.7s var(--ease) forwards;
     }
-    .ticker        { animation-delay: 0.05s; }
-    h1             { animation-delay: 0.15s; }
-    .lead          { animation-delay: 0.28s; }
-    .section-label { animation-delay: 0.40s; }
-    .app-card:nth-of-type(1) { animation-delay: 0.50s; }
-    .app-card:nth-of-type(2) { animation-delay: 0.60s; }
-    footer         { animation-delay: 0.74s; }
+    .ticker          { animation-delay: 0.05s; }
+    h1               { animation-delay: 0.15s; }
+    .lead            { animation-delay: 0.28s; }
+    .section-label   { animation-delay: 0.40s; }
+    .section-label-2 { animation-delay: 0.68s; }
+    .apps   .app-card:nth-of-type(1) { animation-delay: 0.50s; }
+    .apps   .app-card:nth-of-type(2) { animation-delay: 0.58s; }
+    .apps-2 .app-card:nth-of-type(1) { animation-delay: 0.78s; }
+    footer           { animation-delay: 0.90s; }
 
     @keyframes rise {
       from { opacity: 0; transform: translateY(14px); }
@@ -394,6 +397,19 @@
         </div>
         <p class="app-desc">10 問でわかる、あなたの投資家タイプ。結果カードを X でそのままシェアできます。</p>
         <span class="app-url">shindan.nitekabu.com</span>
+      </a>
+    </section>
+
+    <div class="section-label section-label-2">writing</div>
+
+    <section class="apps apps-2">
+      <a class="app-card" href="https://note.com/kabueng55" target="_blank" rel="noopener">
+        <div class="app-head">
+          <span class="app-name">note</span>
+          <span class="app-status live">live</span>
+        </div>
+        <p class="app-desc">個人開発の記録。設計の意図、行き詰まり、夜泣きの合間の小さな進捗まで。</p>
+        <span class="app-url">note.com/kabueng55</span>
       </a>
     </section>
 
